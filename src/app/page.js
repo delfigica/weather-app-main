@@ -1,9 +1,12 @@
-'use client'
+"use client";
 import Image from "next/image";
 import styles from "./page.module.css";
-import { Box, ThemeProvider } from "@mui/material";
+import { Box, Container, ThemeProvider } from "@mui/material";
 import { Navbar } from "./components/Navbar";
 import { theme } from "@/Style";
+import { Search } from "./components/Search";
+import { WeatherProvider } from "./context/WeatherContext";
+import { UnitsProvider } from "./context/UnitsContext";
 
 export default function Home() {
   return (
@@ -14,7 +17,14 @@ export default function Home() {
           minHeight: "100vh",
         }}
       >
-        <Navbar />
+        <Container>
+          <UnitsProvider>
+            <WeatherProvider>
+              <Navbar />
+              <Search />
+            </WeatherProvider>
+          </UnitsProvider>
+        </Container>
       </Box>
     </ThemeProvider>
   );

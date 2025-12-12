@@ -2,7 +2,8 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-import { Box, Button, Container, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
+import { useUnits } from "../context/UnitsContext";
 
 // ICONS
 
@@ -55,12 +56,7 @@ export const Navbar = () => {
   ];
 
   // STATES
-  const [units, setUnits] = useState({
-    temperature: "celsius",
-    windSpeed: "km/h",
-    precipitation: "millimeters",
-  });
-
+  const { units, setUnits } = useUnits();
   const [showMenu, setShowMenu] = useState(false);
 
   // FUNCTIONS
@@ -124,7 +120,7 @@ export const Navbar = () => {
   };
 
   return (
-    <Container
+    <Box
       sx={{
         display: "flex",
         justifyContent: "space-between",
@@ -212,6 +208,6 @@ export const Navbar = () => {
           </Box>
         )}
       </Box>
-    </Container>
+    </Box>
   );
 };
