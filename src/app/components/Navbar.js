@@ -9,6 +9,10 @@ import { useUnits } from "../context/UnitsContext";
 
 import DoneIcon from "@mui/icons-material/Done";
 
+//IMAGES
+import logo from "@/assets/images/logo.svg";
+import unitsIcon from "@/assets/images/icon-units.svg";
+import dropdown from "@/assets/images/icon-dropdown.svg";
 export const Navbar = () => {
   const options = [
     {
@@ -128,7 +132,7 @@ export const Navbar = () => {
       }}
     >
       <Box>
-        <Image src="./images/logo.svg" width={120} height={120} alt="logo" />
+        <Image src={logo} width={120} height={120} alt="logo" />
       </Box>
       <Box sx={{ position: "relative" }}>
         <Button
@@ -137,19 +141,14 @@ export const Navbar = () => {
           onClick={toggleShowMenu}
           sx={showMenu ? activeBtn : btnStyle}
         >
-          <Image
-            src="./images/icon-units.svg"
-            width={15}
-            height={15}
-            alt="settings"
-          />
+          <Image src={unitsIcon} width={15} height={15} alt="settings" />
           <Typography
             sx={{ margin: "0px 10px", fontWeight: "300", fontSize: "1.1em" }}
           >
             Units
           </Typography>
           <Image
-            src="./images/icon-dropdown.svg"
+            src={dropdown}
             width={12}
             height={12}
             alt="settings"

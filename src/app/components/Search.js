@@ -1,6 +1,12 @@
 "use client";
 import React, { useState } from "react";
-import { Box, Button, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { useWeather } from "../context/WeatherContext";
 import { useUnits } from "../context/UnitsContext";
@@ -54,8 +60,7 @@ export const Search = () => {
         temperature_unit:
           units.temperature === "fahrenheit" ? "fahrenheit" : "celsius",
         windspeed_unit: units.windSpeed === "mph" ? "mph" : "kmh",
-        precipitation_unit:
-          units.precipitation === "inches" ? "inch" : "mm",
+        precipitation_unit: units.precipitation === "inches" ? "inch" : "mm",
       });
 
       const weatherResponse = await fetch(
@@ -101,31 +106,61 @@ export const Search = () => {
     }
   };
 
+  const theme = useTheme();
+  const laptop = useMediaQuery(theme.breakpoints.up("lg"));
+
   return (
     <Box
       sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
       <Typography
         variant="h1"
-        sx={{
-          color: "hsl(0, 0%, 100%)",
-          fontSize: "2.4em",
-          fontFamily: "Bricolage Grotesque",
-        }}
+        sx={
+          laptop
+            ? {
+                color: "hsl(0, 0%, 100%)",
+                fontSize: "2.4em",
+                fontFamily: "Bricolage Grotesque",
+              }
+            : {
+                color: "hsl(0, 0%, 100%)",
+                fontSize: "4em",
+                fontFamily: "Bricolage Grotesque",
+                textAlign: "center",
+              }
+        }
       >
         How&apos;s the sky looking today?
       </Typography>
-      <Box sx={{ width: "40%", display: "flex", alignItems: "center" }}>
+      <Box
+        sx={
+          laptop
+            ? { width: "40%", display: "flex", alignItems: "center" }
+            : { width: "100%" }
+        }
+      >
         <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            backgroundColor: "hsl(243, 23%, 24%)",
-            padding: ".6em",
-            borderRadius: "8px",
-            width: "100%",
-            margin: "50px auto",
-          }}
+          sx={
+            laptop
+              ? {
+                  display: "flex",
+                  alignItems: "center",
+                  backgroundColor: "hsl(243, 23%, 24%)",
+                  padding: ".6em",
+                  borderRadius: "8px",
+                  width: "100%",
+                  margin: "50px auto",
+                }
+              : {
+                  display: "flex",
+                  alignItems: "center",
+                  backgroundColor: "hsl(243, 23%, 24%)",
+                  padding: ".6em",
+                  borderRadius: "8px",
+                  width: "100%",
+                  margin: "10px 0px",
+                }
+          }
         >
           <SearchIcon sx={{ color: "hsl(0, 0%, 100%)" }} />
           <input
@@ -145,121 +180,29 @@ export const Search = () => {
         </Box>
         <Button
           variant="contained"
-          sx={{
-            borderRadius: "8px",
-            padding: ".6em 2em",
-            textTransform: "capitalize",
-            margin: "0 10px",
-            backgroundColor: "hsl(248, 70%, 36%)",
-          }}
+          sx={
+            laptop
+              ? {
+                  borderRadius: "8px",
+                  padding: ".6em 2em",
+                  textTransform: "capitalize",
+                  margin: "0 10px",
+                  backgroundColor: "hsl(248, 70%, 36%)",
+                }
+              : {
+                  width: "100%",
+                  textTransform: "capitalize",
+                  backgroundColor: "hsl(248, 70%, 36%)",
+                  borderRadius: "8px",
+                  padding: ".6em 2em",
+                }
+          }
           onClick={handleSearch}
           disabled={loading}
         >
           {loading ? "Searching..." : "Search"}
         </Button>
       </Box>
-      {error && (
-        <Typography sx={{ color: "hsl(0, 70%, 70%)", marginBottom: "10px" }}>
-          {error}
-        </Typography>
-      )}
-      {weather && (
-        <Box
-          sx={{
-            backgroundColor: "hsl(243, 23%, 24%)",
-            border: "1px solid hsl(243, 23%, 30%)",
-            borderRadius: "10px",
-            padding: "16px 20px",
-            color: "hsl(0, 0%, 100%)",
-            width: "90%",
-            maxWidth: "900px",
-            textAlign: "center",
-            marginBottom: "20px",
-          }}
-        >
-          <Typography sx={{ fontSize: "1.1em", fontWeight: "600" }}>
-            {weather.location}
-          </Typography>
-          <Typography sx={{ fontSize: "2.4em", fontWeight: "700" }}>
-            {weather.temperature}°
-          </Typography>
-          <Typography sx={{ fontSize: ".95em", color: "hsl(240, 6%, 70%)" }}>
-            Wind: {weather.windSpeed} {units.windSpeed} · Dir: {weather.windDirection}°
-          </Typography>
-          {weather.weatherCode !== undefined && (
-            <Typography sx={{ fontSize: ".9em", marginTop: "6px" }}>
-              Code: {weather.weatherCode}
-            </Typography>
-          )}
-          {weather.hourlyTemps?.length > 0 && (
-            <Box sx={{ marginTop: "16px", textAlign: "left" }}>
-              <Typography sx={{ fontSize: "1em", fontWeight: "600" }}>
-                Hourly (next hours)
-              </Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: "8px",
-                  overflowX: "auto",
-                  paddingTop: "6px",
-                }}
-              >
-                {weather.hourlyTemps.slice(0, 8).map((item) => (
-                  <Box
-                    key={item.time}
-                    sx={{
-                      backgroundColor: "hsl(243, 27%, 20%)",
-                      borderRadius: "8px",
-                      padding: "8px",
-                      minWidth: "70px",
-                      textAlign: "center",
-                    }}
-                  >
-                    <Typography sx={{ fontSize: ".8em" }}>
-                      {new Date(item.time).getHours()}:00
-                    </Typography>
-                    <Typography sx={{ fontWeight: "700" }}>
-                      {item.temperature}°
-                    </Typography>
-                  </Box>
-                ))}
-              </Box>
-            </Box>
-          )}
-          {weather.dailyTemps?.length > 0 && (
-            <Box sx={{ marginTop: "16px", textAlign: "left" }}>
-              <Typography sx={{ fontSize: "1em", fontWeight: "600" }}>
-                This week
-              </Typography>
-              <Box sx={{ display: "grid", gap: "6px", marginTop: "6px" }}>
-                {weather.dailyTemps.slice(0, 7).map((item) => (
-                  <Box
-                    key={item.time}
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      backgroundColor: "hsl(243, 27%, 20%)",
-                      padding: "8px 10px",
-                      borderRadius: "8px",
-                    }}
-                  >
-                    <Typography sx={{ fontSize: ".9em" }}>
-                      {new Date(item.time).toLocaleDateString(undefined, {
-                        weekday: "short",
-                        month: "short",
-                        day: "numeric",
-                      })}
-                    </Typography>
-                    <Typography sx={{ fontWeight: "700" }}>
-                      {item.max}° / {item.min}°
-                    </Typography>
-                  </Box>
-                ))}
-              </Box>
-            </Box>
-          )}
-        </Box>
-      )}
     </Box>
   );
 };
