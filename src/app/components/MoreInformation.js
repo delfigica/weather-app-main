@@ -45,7 +45,7 @@ export const MoreInformation = () => {
       sx={{
         display: "flex",
         flexWrap: "wrap",
-        margin: "20px 0x",
+        margin: "20px 0px",
         justifyContent: "space-between",
       }}
     >

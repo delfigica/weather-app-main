@@ -99,8 +99,14 @@ export const Search = () => {
           weatherCode: daily.weathercode?.[index],
         })) || [];
 
+      const currentDate = current?.time ? new Date(current.time) : null;
       const currentHourIndex =
-        hourly?.time?.findIndex((t) => t === current?.time) ?? -1;
+        currentDate && hourly?.time?.length
+          ? hourly.time.findIndex(
+              (t) => new Date(t).getHours() === currentDate.getHours()
+            )
+          : -1;
+      const currentIdx = currentHourIndex >= 0 ? currentHourIndex : 0;
 
       setWeather({
         location: `${name}${country ? `, ${country}` : ""}`,
@@ -111,16 +117,16 @@ export const Search = () => {
         hourlyTemps,
         dailyTemps,
         feelsLike:
-          currentHourIndex >= 0
-            ? roundValue(hourly.apparent_temperature?.[currentHourIndex])
+          hourly?.apparent_temperature?.[currentIdx] !== undefined
+            ? roundValue(hourly.apparent_temperature[currentIdx])
             : undefined,
         humidity:
-          currentHourIndex >= 0
-            ? roundValue(hourly.relative_humidity_2m?.[currentHourIndex])
+          hourly?.relative_humidity_2m?.[currentIdx] !== undefined
+            ? roundValue(hourly.relative_humidity_2m[currentIdx])
             : undefined,
         precipitation:
-          currentHourIndex >= 0
-            ? roundValue(hourly.precipitation?.[currentHourIndex])
+          hourly?.precipitation?.[currentIdx] !== undefined
+            ? roundValue(hourly.precipitation[currentIdx])
             : undefined,
       });
     } catch (err) {
