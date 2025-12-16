@@ -81,7 +81,7 @@ export const CountryBox = () => {
               justifyContent: "center",
               color: "hsl(0, 0%, 100%)",
               padding: "4em 1em",
-              margin: '30px 0px'
+              margin: "30px 0px",
             }
       }
     >
@@ -105,7 +105,7 @@ export const CountryBox = () => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
-                width: '100%'
+                width: "100%",
               }
         }
       >
@@ -117,7 +117,7 @@ export const CountryBox = () => {
             alt="weather icon"
           />
         </Box>
-        <Typography sx={laptop ? { fontSize: "5em" } : { fontSize: "6em" }}>
+        <Typography sx={laptop ? { fontSize: "5em" } : { fontSize: "5em" }}>
           {weather?.temperature}°
         </Typography>
       </Box>

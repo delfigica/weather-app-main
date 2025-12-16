@@ -54,13 +54,15 @@ export const Search = () => {
         latitude,
         longitude,
         current_weather: "true",
-        hourly: "temperature_2m",
+        hourly:
+          "temperature_2m,apparent_temperature,relative_humidity_2m,precipitation",
         daily: "temperature_2m_max,temperature_2m_min",
         timezone: "auto",
         temperature_unit:
           units.temperature === "fahrenheit" ? "fahrenheit" : "celsius",
         windspeed_unit: units.windSpeed === "mph" ? "mph" : "kmh",
-        precipitation_unit: units.precipitation === "inches" ? "inch" : "mm",
+        precipitation_unit:
+          units.precipitation === "inches" ? "inch" : "mm",
       });
 
       const weatherResponse = await fetch(
@@ -80,6 +82,9 @@ export const Search = () => {
         hourly?.time?.map((time, index) => ({
           time,
           temperature: hourly.temperature_2m?.[index],
+          apparent: hourly.apparent_temperature?.[index],
+          humidity: hourly.relative_humidity_2m?.[index],
+          precipitation: hourly.precipitation?.[index],
         })) || [];
 
       const dailyTemps =
@@ -89,6 +94,9 @@ export const Search = () => {
           min: daily.temperature_2m_min?.[index],
         })) || [];
 
+      const currentHourIndex =
+        hourly?.time?.findIndex((t) => t === current?.time) ?? -1;
+
       setWeather({
         location: `${name}${country ? `, ${country}` : ""}`,
         temperature: current?.temperature,
@@ -97,6 +105,18 @@ export const Search = () => {
         weatherCode: current?.weathercode,
         hourlyTemps,
         dailyTemps,
+        feelsLike:
+          currentHourIndex >= 0
+            ? hourly.apparent_temperature?.[currentHourIndex]
+            : undefined,
+        humidity:
+          currentHourIndex >= 0
+            ? hourly.relative_humidity_2m?.[currentHourIndex]
+            : undefined,
+        precipitation:
+          currentHourIndex >= 0
+            ? hourly.precipitation?.[currentHourIndex]
+            : undefined,
       });
     } catch (err) {
       setWeather(null);
