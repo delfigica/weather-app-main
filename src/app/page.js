@@ -29,7 +29,7 @@ export default function Home() {
           minHeight: "100vh",
         }}
       >
-        <Box sx={{ padding: '0px 5em'}}>
+        <Box sx={laptop ? { padding: '0px 5em'} : {padding: '0 1em'}}>
           <UnitsProvider>
             <WeatherProvider>
               <Navbar />
@@ -49,7 +49,7 @@ export default function Home() {
                   }
                 >
                   <CountryBox />
-                  <Box sx={{ margin: "20px 0" }}>
+                  <Box sx={laptop ? { margin: "20px 0" } : {margin: '0px 0'}}>
                     <MoreInformation />
                   </Box>
                   <Box sx={{ margin: "40px 0" }}>

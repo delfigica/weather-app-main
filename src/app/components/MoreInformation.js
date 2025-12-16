@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useWeather } from "../context/WeatherContext";
 
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useUnits } from "../context/UnitsContext";
 
 export const MoreInformation = () => {
@@ -38,6 +38,8 @@ export const MoreInformation = () => {
     },
   ];
 
+  const theme = useTheme();
+  const laptop = useMediaQuery(theme.breakpoints.up("lg"));
   return (
     <Box
       sx={{
@@ -50,18 +52,34 @@ export const MoreInformation = () => {
       {items.map((item, i) => (
         <Box
           key={i}
-          sx={{
-            width: "23%",
-            color: "hsl(0, 0%, 100%)",
-            background: "hsl(243, 23%, 24%)",
-            padding: "0 1em",
-            border: "1px solid hsla(240, 5.90%, 70.00%, 0.28)",
-            borderRadius: "5px",
-            height: "90px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: 'space-evenly'
-          }}
+          sx={
+            laptop
+              ? {
+                  width: "23%",
+                  color: "hsl(0, 0%, 100%)",
+                  background: "hsl(243, 23%, 24%)",
+                  padding: "0 1em",
+                  border: "1px solid hsla(240, 5.90%, 70.00%, 0.28)",
+                  borderRadius: "5px",
+                  height: "90px",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-evenly",
+                }
+              : {
+                  width: "48%",
+                  color: "hsl(0, 0%, 100%)",
+                  background: "hsl(243, 23%, 24%)",
+                  padding: "0 1em",
+                  border: "1px solid hsla(240, 5.90%, 70.00%, 0.28)",
+                  borderRadius: "5px",
+                  height: "90px",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-evenly",
+                  margin: "10px 0",
+                }
+          }
         >
           <Typography
             sx={{

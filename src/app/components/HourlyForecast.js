@@ -4,7 +4,7 @@ import { useWeather } from "../context/WeatherContext";
 import { WeatherIcon } from "./WeatherIcon";
 import Image from "next/image";
 import { btnStyle } from "@/Style";
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography, Button, useTheme, useMediaQuery } from "@mui/material";
 import dropdown from "@/assets/images/icon-dropdown.svg";
 
 const formatDayLabel = (iso) =>
@@ -37,14 +37,22 @@ export const HourlyForecast = () => {
     return new Date(item.time).toISOString().startsWith(selectedDay);
   });
 
+  const theme = useTheme();
+  const laptop = useMediaQuery(theme.breakpoints.up("lg"));
+
   return (
     <Box
-      sx={{
+      sx={laptop ? {
         backgroundColor: "hsl(243, 23%, 24%)",
         borderRadius: "15px",
         color: "hsl(0, 0%, 100%)",
         height: "94vh",
         marginLeft: "30px",
+      } : {
+         backgroundColor: "hsl(243, 23%, 24%)",
+        borderRadius: "15px",
+        color: "hsl(0, 0%, 100%)",
+        height: "94vh",
       }}
     >
       <Box

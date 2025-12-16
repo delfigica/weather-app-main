@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useWeather } from "../context/WeatherContext";
 import { WeatherIcon } from "./WeatherIcon";
 
@@ -9,6 +9,9 @@ export const DailyForecast = () => {
   const days = weather?.dailyTemps?.slice(0, 7) || [];
 
   if (!days.length) return null;
+
+  const theme = useTheme();
+  const laptop = useMediaQuery(theme.breakpoints.up("lg"));
 
   return (
     <Box
@@ -20,7 +23,13 @@ export const DailyForecast = () => {
       <Typography sx={{ fontSize: "1.1em", fontWeight: "600", mb: 1 }}>
         Daily forecast
       </Typography>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+      <Box
+        sx={
+          laptop
+            ? { display: "flex", justifyContent: "space-between" }
+            : { display: "flex", flexWrap: "wrap" }
+        }
+      >
         {days.map((item) => {
           const date = new Date(item.time);
           const dayLabel = date.toLocaleDateString("en-US", {
@@ -29,18 +38,34 @@ export const DailyForecast = () => {
           return (
             <Box
               key={item.time}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                backgroundColor: "hsl(243, 27%, 20%)",
-                border: "1px solid hsla(240, 5.90%, 70.00%, 0.28)",
-                borderRadius: "8px",
-                padding: "10px 12px",
-                height: "145px",
-                width: "95px",
-              }}
+              sx={
+                laptop
+                  ? {
+                      display: "flex",
+                      alignItems: "center",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                      backgroundColor: "hsl(243, 27%, 20%)",
+                      border: "1px solid hsla(240, 5.90%, 70.00%, 0.28)",
+                      borderRadius: "8px",
+                      padding: "10px 12px",
+                      height: "145px",
+                      width: "95px",
+                    }
+                  : {
+                      display: "flex",
+                      alignItems: "center",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                      backgroundColor: "hsl(243, 27%, 20%)",
+                      border: "1px solid hsla(240, 5.90%, 70.00%, 0.28)",
+                      borderRadius: "8px",
+                      padding: "10px 12px",
+                      height: "145px",
+                      width: "105px",
+                      margin: '10px'
+                    }
+              }
             >
               <Box
                 sx={{
@@ -69,7 +94,7 @@ export const DailyForecast = () => {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  width: '100%'
+                  width: "100%",
                 }}
               >
                 <Typography sx={{ color: "hsl(0, 0%, 100%)" }}>
