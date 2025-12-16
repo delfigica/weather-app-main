@@ -11,6 +11,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useWeather } from "../context/WeatherContext";
 import { useUnits } from "../context/UnitsContext";
 
+const roundValue = (value) =>
+  value === undefined || value === null ? value : Math.round(value);
+
 export const Search = () => {
   const [place, setPlace] = useState("");
   const { weather, setWeather, loading, setLoading, error, setError } =
@@ -56,7 +59,7 @@ export const Search = () => {
         current_weather: "true",
         hourly:
           "temperature_2m,apparent_temperature,relative_humidity_2m,precipitation",
-        daily: "temperature_2m_max,temperature_2m_min",
+        daily: "temperature_2m_max,temperature_2m_min,weathercode",
         timezone: "auto",
         temperature_unit:
           units.temperature === "fahrenheit" ? "fahrenheit" : "celsius",
@@ -81,17 +84,18 @@ export const Search = () => {
       const hourlyTemps =
         hourly?.time?.map((time, index) => ({
           time,
-          temperature: hourly.temperature_2m?.[index],
-          apparent: hourly.apparent_temperature?.[index],
-          humidity: hourly.relative_humidity_2m?.[index],
-          precipitation: hourly.precipitation?.[index],
+          temperature: roundValue(hourly.temperature_2m?.[index]),
+          apparent: roundValue(hourly.apparent_temperature?.[index]),
+          humidity: roundValue(hourly.relative_humidity_2m?.[index]),
+          precipitation: roundValue(hourly.precipitation?.[index]),
         })) || [];
 
       const dailyTemps =
         daily?.time?.map((time, index) => ({
           time,
-          max: daily.temperature_2m_max?.[index],
-          min: daily.temperature_2m_min?.[index],
+          max: roundValue(daily.temperature_2m_max?.[index]),
+          min: roundValue(daily.temperature_2m_min?.[index]),
+          weatherCode: daily.weathercode?.[index],
         })) || [];
 
       const currentHourIndex =
@@ -99,23 +103,23 @@ export const Search = () => {
 
       setWeather({
         location: `${name}${country ? `, ${country}` : ""}`,
-        temperature: current?.temperature,
-        windSpeed: current?.windspeed,
+        temperature: roundValue(current?.temperature),
+        windSpeed: roundValue(current?.windspeed),
         windDirection: current?.winddirection,
         weatherCode: current?.weathercode,
         hourlyTemps,
         dailyTemps,
         feelsLike:
           currentHourIndex >= 0
-            ? hourly.apparent_temperature?.[currentHourIndex]
+            ? roundValue(hourly.apparent_temperature?.[currentHourIndex])
             : undefined,
         humidity:
           currentHourIndex >= 0
-            ? hourly.relative_humidity_2m?.[currentHourIndex]
+            ? roundValue(hourly.relative_humidity_2m?.[currentHourIndex])
             : undefined,
         precipitation:
           currentHourIndex >= 0
-            ? hourly.precipitation?.[currentHourIndex]
+            ? roundValue(hourly.precipitation?.[currentHourIndex])
             : undefined,
       });
     } catch (err) {

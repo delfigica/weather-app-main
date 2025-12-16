@@ -15,6 +15,7 @@ import { WeatherProvider } from "./context/WeatherContext";
 import { UnitsProvider } from "./context/UnitsContext";
 import { CountryBox } from "./components/CountryBox";
 import { MoreInformation } from "./components/MoreInformation";
+import { DailyForecast } from "./components/DailyForecast";
 
 export default function Home() {
   const theme = useTheme();
@@ -42,16 +43,19 @@ export default function Home() {
                 <Box
                   sx={
                     laptop
-                      ? { width: "60%", minHeight: "60vh" }
+                      ? { width: "65%", minHeight: "60vh" }
                       : { width: "100%" }
                   }
                 >
                   <CountryBox />
-                  <Box sx={{ margin: '20px 0'}}>
+                  <Box sx={{ margin: "20px 0" }}>
                     <MoreInformation />
                   </Box>
+                  <Box sx={{ margin: "40px 0" }}>
+                    <DailyForecast />
+                  </Box>
                 </Box>
-                <Box sx={laptop ? { width: "40%" } : { width: "100%" }}></Box>
+                <Box sx={laptop ? { width: "35%" } : { width: "100%" }}></Box>
               </Box>
             </WeatherProvider>
           </UnitsProvider>
