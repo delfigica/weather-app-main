@@ -13,6 +13,7 @@ import DoneIcon from "@mui/icons-material/Done";
 import logo from "@/assets/images/logo.svg";
 import unitsIcon from "@/assets/images/icon-units.svg";
 import dropdown from "@/assets/images/icon-dropdown.svg";
+import { activeBtn, btnStyle } from "@/Style";
 export const Navbar = () => {
   const options = [
     {
@@ -104,20 +105,8 @@ export const Navbar = () => {
     justifyContent: "space-between",
     ...optionMenuNavbar,
   };
-  const btnStyle = {
-    borderRadius: "10px",
-    textTransform: "capitalize",
-    padding: "10px 15px",
-    backgroundColor: "hsl(243, 27%, 20%)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-  };
 
-  const activeBtn = {
-    ...btnStyle,
-    border: "2px solid hsl(0, 0%, 100%)",
-  };
+  
   const hrStyle = {
     border: "1px solid hsl(243, 23%, 30%)",
     marginBottom: "10px",

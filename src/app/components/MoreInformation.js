@@ -9,6 +9,8 @@ export const MoreInformation = () => {
   const { weather } = useWeather();
   const { units } = useUnits();
 
+  if (!weather) return null;
+
   const items = [
     {
       label: "Feels like",

@@ -16,6 +16,7 @@ import { UnitsProvider } from "./context/UnitsContext";
 import { CountryBox } from "./components/CountryBox";
 import { MoreInformation } from "./components/MoreInformation";
 import { DailyForecast } from "./components/DailyForecast";
+import { HourlyForecast } from "./components/HourlyForecast";
 
 export default function Home() {
   const theme = useTheme();
@@ -28,7 +29,7 @@ export default function Home() {
           minHeight: "100vh",
         }}
       >
-        <Container>
+        <Box sx={{ padding: '0px 5em'}}>
           <UnitsProvider>
             <WeatherProvider>
               <Navbar />
@@ -43,7 +44,7 @@ export default function Home() {
                 <Box
                   sx={
                     laptop
-                      ? { width: "65%", minHeight: "60vh" }
+                      ? { width: "61%", minHeight: "60vh" }
                       : { width: "100%" }
                   }
                 >
@@ -55,11 +56,13 @@ export default function Home() {
                     <DailyForecast />
                   </Box>
                 </Box>
-                <Box sx={laptop ? { width: "35%" } : { width: "100%" }}></Box>
+                <Box sx={laptop ? { width: "39%" } : { width: "100%" }}>
+                  <HourlyForecast />
+                </Box>
               </Box>
             </WeatherProvider>
           </UnitsProvider>
-        </Container>
+        </Box>
       </Box>
     </ThemeProvider>
   );

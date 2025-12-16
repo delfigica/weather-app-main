@@ -16,3 +16,18 @@ export const themeApp = createTheme({
     },
   },
 });
+
+export const btnStyle = {
+  borderRadius: "10px",
+  textTransform: "capitalize",
+  padding: "10px 15px",
+  backgroundColor: "hsl(243, 27%, 20%)",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+};
+
+export const activeBtn = {
+  ...btnStyle,
+  border: "2px solid hsl(0, 0%, 100%)",
+};

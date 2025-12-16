@@ -58,7 +58,7 @@ export const Search = () => {
         longitude,
         current_weather: "true",
         hourly:
-          "temperature_2m,apparent_temperature,relative_humidity_2m,precipitation",
+          "temperature_2m,apparent_temperature,relative_humidity_2m,precipitation,weathercode",
         daily: "temperature_2m_max,temperature_2m_min,weathercode",
         timezone: "auto",
         temperature_unit:
@@ -88,6 +88,7 @@ export const Search = () => {
           apparent: roundValue(hourly.apparent_temperature?.[index]),
           humidity: roundValue(hourly.relative_humidity_2m?.[index]),
           precipitation: roundValue(hourly.precipitation?.[index]),
+          weatherCode: hourly.weathercode?.[index],
         })) || [];
 
       const dailyTemps =
