@@ -9,6 +9,8 @@ import { WeatherIcon } from "./WeatherIcon";
 
 export const CountryBox = () => {
   const { weather } = useWeather();
+  const theme = useTheme();
+  const laptop = useMediaQuery(theme.breakpoints.up("lg"));
 
   if (!weather) {
     return null;
@@ -20,9 +22,6 @@ export const CountryBox = () => {
     day: "numeric",
     year: "numeric",
   });
-
-  const theme = useTheme();
-  const laptop = useMediaQuery(theme.breakpoints.up("lg"));
 
   return (
     <Box

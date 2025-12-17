@@ -1,11 +1,11 @@
 "use client";
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { useWeather } from "../context/WeatherContext";
 import { WeatherIcon } from "./WeatherIcon";
-import Image from "next/image";
 import { btnStyle } from "@/Style";
 import { Box, Typography, Button, useTheme, useMediaQuery } from "@mui/material";
 import dropdown from "@/assets/images/icon-dropdown.svg";
+import Image from "next/image";
 
 const formatDayLabel = (iso) =>
   new Date(iso).toLocaleDateString("en-US", {
@@ -14,8 +14,13 @@ const formatDayLabel = (iso) =>
 
 export const HourlyForecast = () => {
   const { weather } = useWeather();
+  const theme = useTheme();
+  const laptop = useMediaQuery(theme.breakpoints.up("lg"));
 
-  const hourly = weather?.hourlyTemps || [];
+  const hourly = useMemo(
+    () => weather?.hourlyTemps || [],
+    [weather?.hourlyTemps]
+  );
 
   const dayKeys = useMemo(() => {
     const keys = new Set();
@@ -30,15 +35,19 @@ export const HourlyForecast = () => {
   const [selectedDay, setSelectedDay] = useState(dayKeys[0] || "");
   const [showMenu, setShowMenu] = useState(false);
 
+  useEffect(() => {
+    if (!dayKeys.length) return;
+    if (!selectedDay || !dayKeys.includes(selectedDay)) {
+      setSelectedDay(dayKeys[0]);
+    }
+  }, [dayKeys, selectedDay]);
+
   if (!hourly.length) return null;
 
   const filtered = hourly.filter((item) => {
     if (!item?.time || !selectedDay) return false;
     return new Date(item.time).toISOString().startsWith(selectedDay);
   });
-
-  const theme = useTheme();
-  const laptop = useMediaQuery(theme.breakpoints.up("lg"));
 
   return (
     <Box

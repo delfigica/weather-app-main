@@ -6,12 +6,11 @@ import { WeatherIcon } from "./WeatherIcon";
 
 export const DailyForecast = () => {
   const { weather } = useWeather();
+  const theme = useTheme();
+  const laptop = useMediaQuery(theme.breakpoints.up("lg"));
   const days = weather?.dailyTemps?.slice(0, 7) || [];
 
   if (!days.length) return null;
-
-  const theme = useTheme();
-  const laptop = useMediaQuery(theme.breakpoints.up("lg"));
 
   return (
     <Box

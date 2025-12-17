@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useWeather } from "../context/WeatherContext";
 
 import { Box, Typography, useMediaQuery, useTheme } from "@mui/material";
@@ -8,6 +8,8 @@ import { useUnits } from "../context/UnitsContext";
 export const MoreInformation = () => {
   const { weather } = useWeather();
   const { units } = useUnits();
+  const theme = useTheme();
+  const laptop = useMediaQuery(theme.breakpoints.up("lg"));
 
   if (!weather) return null;
 
@@ -38,8 +40,6 @@ export const MoreInformation = () => {
     },
   ];
 
-  const theme = useTheme();
-  const laptop = useMediaQuery(theme.breakpoints.up("lg"));
   return (
     <Box
       sx={{
